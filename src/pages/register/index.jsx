@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { register } from "../../redux/slices/authSlice";
+import { register, resetState } from "../../redux/slices/authSlice";
 import { useNavigate } from "react-router-dom";
 
 export default function Register() {
@@ -14,7 +14,11 @@ export default function Register() {
     if (isSuccess) {
       navigate("/login");
     }
-  }, [isSuccess, navigate]);
+
+    return () => {
+      dispatch(resetState());
+    };
+  }, [isSuccess, navigate, dispatch]);
 
   const [formData, setFormData] = useState({
     email: "",
@@ -43,7 +47,8 @@ export default function Register() {
 
   return (
     <>
-      <div style={{ margin: "1rem" }}>
+      <h1>Register</h1>
+      <div style={{ marginTop: "1rem" }}>
         <form
           style={{ display: "flex", flexDirection: "column", gap: "0.2rem" }}
           onSubmit={handleSubmit}
